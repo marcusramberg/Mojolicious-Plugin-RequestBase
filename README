@@ -1,0 +1,37 @@
+NAME
+    Mojolicious::Plugin::RequestBase - Support setting base in frontend
+    proxy
+
+SYNOPSIS
+      # Mojolicious
+      $self->plugin('RequestBase');
+
+      # Mojolicious::Lite
+      plugin 'RequestBase';
+
+DESCRIPTION
+    Simple plugin to support Request Base header. Just load it and set
+    X-Request-Base in your Frontend Proxy. For instance, if you are using
+    nginx you could use it like this:
+
+       proxy_set_header X-Request-Base 'https://mojolicio.us/myapp';
+
+METHODS
+    Mojolicious::Plugin::RequestBase inherits all methods from
+    Mojolicious::Plugin and implements the following new ones.
+
+  "register"
+      $plugin->register;
+
+    Register plugin in Mojolicious application.
+
+SEE ALSO
+    Catalyst::TraitFor::Request::ProxyBase, Mojolicious,
+    Mojolicious::Guides, <http://mojolicio.us>.
+
+COPYRIGHT AND LICENSE
+    Copyright (C) 2011, Marcus Ramberg.
+
+    This program is free software, you can redistribute it and/or modify it
+    under the terms of the Artistic License version 2.0.
+
