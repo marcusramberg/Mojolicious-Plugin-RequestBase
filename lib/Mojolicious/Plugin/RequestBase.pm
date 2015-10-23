@@ -5,12 +5,16 @@ our $VERSION = '0.1';
 
 sub register {
   my ($self, $app) = @_;
-  $app->hook(before_dispatch => sub {
-    my $this=shift;
-    if(my $base=$this->req->headers->header('X-Request-Base')) {
-      $this->req->url->base(Mojo::URL->new($base));
+  $app->hook(
+    before_dispatch => sub {
+      my $c = shift;
+      if (my $base = $c->req->headers->header('X-Request-Base')) {
+        $base = "$base/" unless $base =~ m!/$!;
+        $c->req->url->path->leading_slash(0);
+        $c->req->url->base(Mojo::URL->new($base));
+      }
     }
-  });
+  );
 }
 
 1;
