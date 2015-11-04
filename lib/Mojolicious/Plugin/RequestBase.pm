@@ -25,11 +25,32 @@ Mojolicious::Plugin::RequestBase - Support setting base in frontend proxy
 
 =head1 SYNOPSIS
 
+=head2 Reverse proxy
+
+  # nxinx
+  proxy_set_header X-Request-Base "https://example.com/myapp";
+
+=head2 Application
+
   # Mojolicious
-  $self->plugin('RequestBase');
+  $app->plugin("RequestBase");
 
   # Mojolicious::Lite
-  plugin 'RequestBase';
+  plugin "RequestBase";
+
+=head2 Controller
+
+Request to C<https://example.com/myapp/foo> with C<X-Request-Base> set to
+C<https://example.com/myapp>.
+
+  # https://example.com/myapp/foo
+  $c->url_for->to_abs;
+
+  # https://example.com/myapp/some/path
+  $c->url_for("/some/path")->to_abs;
+
+  # https://example.com/foo (Probably not what you want)
+  $c->req->url->to_abs;
 
 =head1 DESCRIPTION
 
@@ -37,14 +58,14 @@ Simple plugin to support Request Base header. Just load it and set
 X-Request-Base in your Frontend Proxy. For instance, if you are using
 nginx you could use it like this: 
 
-   proxy_set_header X-Request-Base 'https://mojolicio.us/myapp';
+  proxy_set_header X-Request-Base 'https://example.com/myapp';
 
 =head1 METHODS
 
 L<Mojolicious::Plugin::RequestBase> inherits all methods from
 L<Mojolicious::Plugin> and implements the following new ones.
 
-=head2 C<register>
+=head2 register
 
   $plugin->register;
 

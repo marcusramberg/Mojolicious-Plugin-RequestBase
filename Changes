@@ -1,5 +1,8 @@
 Revision history for perl distribution Mojolicious-Plugin-RequestBase
 
+0.2 Not Released
+ - Documented different to_abs() behavior
+
 0.1 2013-12-20
  - Fix test suite failure
 
