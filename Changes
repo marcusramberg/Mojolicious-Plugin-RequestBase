@@ -1,5 +1,7 @@
-0.1    2013-12-20
-      - Fix test suite failure
+Revision history for perl distribution Mojolicious-Plugin-RequestBase
 
-0.01   2011-11-17 23:16:00
-      - Initial release
+0.1 2013-12-20
+ - Fix test suite failure
+
+0.01 2011-11-17T23:16:00Z
+ - Initial release
