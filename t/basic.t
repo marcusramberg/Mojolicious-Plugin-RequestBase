@@ -18,6 +18,17 @@ get '/redirect' => sub {
   $c->redirect_to("http://example.com?from=$url");
 };
 
+get '/some/path' => sub {
+  my $c = shift;
+  $c->render(
+    json => {
+      canonicalize     => $c->req->url->path->canonicalize,
+      abs_canonicalize => $c->req->url->to_abs->path->canonicalize,
+    }
+  );
+};
+
+
 get '/login', 'login';
 
 my $t = Test::Mojo->new;
@@ -30,5 +41,9 @@ $t->get_ok('/redirect', {'X-Request-Base' => 'http://mojolicio.us/foo'})
   ->status_is(302)
   ->header_is(
   Location => 'http://example.com?from=http://mojolicio.us/foo/redirect');
+
+$t->get_ok('/some/path', {'X-Request-Base' => 'http://example.com/foo'})
+  ->status_is(200)->json_is('/abs_canonicalize', '/foo/some/path')
+  ->json_is('/canonicalize', '/some/path');
 
 done_testing;
