@@ -1,7 +1,7 @@
 package Mojolicious::Plugin::RequestBase;
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 sub register {
   my ($self, $app, $config) = @_;

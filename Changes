@@ -1,6 +1,6 @@
 Revision history for perl distribution Mojolicious-Plugin-RequestBase
 
-0.2 Not Released
+0.2 2015-11-04T10:44:46+0100
  - Documented different to_abs() behavior
 
 0.1 2013-12-20
