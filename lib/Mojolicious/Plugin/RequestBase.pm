@@ -25,12 +25,16 @@ Mojolicious::Plugin::RequestBase - Support setting base in frontend proxy
 
 =head1 SYNOPSIS
 
-=head2 Reverse proxy
+=head2 Frontend proxy
+
+The "X-Request-Base" header must be set in the frontend proxy.
 
   # nxinx
   proxy_set_header X-Request-Base "https://example.com/myapp";
 
 =head2 Application
+
+This plugin will read the "X-Request-Base" header.
 
   # Mojolicious
   $app->plugin("RequestBase");
@@ -40,8 +44,14 @@ Mojolicious::Plugin::RequestBase - Support setting base in frontend proxy
 
 =head2 Controller
 
-Request to C<https://example.com/myapp/foo> with C<X-Request-Base> set to
-C<https://example.com/myapp>.
+URL generating helpers, such as L<url_for|Mojolicious::Controller/url_for>
+will create the correct URL using the base URL from C<X-Request-Base>.
+
+Here are example with C<X-Request-Base> set to C<https://example.com/myapp>
+and a request sent to Request to C<https://example.com/myapp/foo>:
+
+  # /myapp/foo
+  $c->url_for;
 
   # https://example.com/myapp/foo
   $c->url_for->to_abs;
