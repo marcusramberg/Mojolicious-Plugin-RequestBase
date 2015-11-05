@@ -62,6 +62,23 @@ and a request sent to Request to C<https://example.com/myapp/foo>:
   # https://example.com/foo (Probably not what you want)
   $c->req->url->to_abs;
 
+=head2 Hooks
+
+=head2 before_dispatch
+
+In a L<before_dispatch|Mojolicious/HOOKS> the router has not yet started,
+so you need to pass in the request path to get the expected result:
+
+  hook before_dispatch => sub {
+    my $c = shift;
+
+    # https://example.com/myapp/foo
+    $c->url_for($c->req->url->path)->to_abs;
+
+    # https://example.com/foo (Probably not what you want)
+    $c->url_for->to_abs;
+  };
+
 =head1 DESCRIPTION
 
 Simple plugin to support Request Base header. Just load it and set

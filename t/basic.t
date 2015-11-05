@@ -5,7 +5,14 @@ use Test::More;
 use Mojolicious::Lite;
 use Test::Mojo;
 
+my @before;
+
 plugin 'RequestBase';
+
+hook before_dispatch => sub {
+  my $c = shift;
+  @before = ($c->url_for->to_abs, $c->url_for($c->req->url->path)->to_abs);
+};
 
 get '/' => sub {
   my $c = shift;
@@ -52,5 +59,8 @@ $t->get_ok('/redirect?path=some_path',
 $t->get_ok('/some/path', {'X-Request-Base' => 'http://example.com/foo'})
   ->status_is(200)->json_is('/abs_canonicalize', '/foo/some/path')
   ->json_is('/canonicalize', '/some/path');
+
+is $before[0], "http://example.com/foo",           "before_dispatch url_for";
+is $before[1], "http://example.com/foo/some/path", "before_dispatch url";
 
 done_testing;
