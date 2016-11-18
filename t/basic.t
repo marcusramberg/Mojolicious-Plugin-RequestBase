@@ -63,4 +63,11 @@ $t->get_ok('/some/path', {'X-Request-Base' => 'http://example.com/foo'})
 is $before[0], "http://example.com/foo",           "before_dispatch url_for";
 is $before[1], "http://example.com/foo/some/path", "before_dispatch url";
 
+$t->get_ok('/redirect?path=some_path',
+  {'X-Request-Base' => '/foo'})->status_is(302)
+  ->header_like(
+  Location => qr(example\.com\?from=http.+27.0.0.1:\d+\/foo\/some\/path));
+
+
+
 done_testing;

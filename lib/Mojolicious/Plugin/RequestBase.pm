@@ -10,7 +10,13 @@ sub register {
     before_dispatch => sub {
       my $c = shift;
       if (my $base = $c->req->headers->header('X-Request-Base')) {
-        $c->req->url->base(Mojo::URL->new($base));
+        my $url = Mojo::URL->new($base);
+        if ($url->host) {
+          $c->req->url->base($url);
+        }
+        else {
+          $c->req->url->base->path($url->path);
+        }
       }
     }
   );
@@ -31,6 +37,8 @@ The "X-Request-Base" header must be set in the frontend proxy.
 
   # nxinx
   proxy_set_header X-Request-Base "https://example.com/myapp";
+  # or
+  proxy_set_header X-Request-Base "/myapp";
 
 =head2 Application
 
@@ -86,6 +94,8 @@ X-Request-Base in your Frontend Proxy. For instance, if you are using
 nginx you could use it like this: 
 
   proxy_set_header X-Request-Base 'https://example.com/myapp';
+
+Note that you can also pass a relative URL to retain the original hostname provided by the proxy.
 
 =head1 METHODS
 

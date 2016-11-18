@@ -1,5 +1,9 @@
 Revision history for perl distribution Mojolicious-Plugin-RequestBase
 
+
+0.3 2016-11-17T17:44:46+0100
+ - Added support for relative URLs
+
 0.2 2015-11-04T10:44:46+0100
  - Documented different to_abs() behavior
 
