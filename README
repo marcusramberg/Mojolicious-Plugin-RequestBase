@@ -8,6 +8,8 @@ SYNOPSIS
 
       # nxinx
       proxy_set_header X-Request-Base "https://example.com/myapp";
+      # or
+      proxy_set_header X-Request-Base "/myapp";
 
   Application
     This plugin will read the "X-Request-Base" header.
@@ -38,12 +40,30 @@ SYNOPSIS
       # https://example.com/foo (Probably not what you want)
       $c->req->url->to_abs;
 
+  Hooks
+  before_dispatch
+    In a before_dispatch the router has not yet started, so you need to pass
+    in the request path to get the expected result:
+
+      hook before_dispatch => sub {
+        my $c = shift;
+
+        # https://example.com/myapp/foo
+        $c->url_for($c->req->url->path)->to_abs;
+
+        # https://example.com/foo (Probably not what you want)
+        $c->url_for->to_abs;
+      };
+
 DESCRIPTION
     Simple plugin to support Request Base header. Just load it and set
     X-Request-Base in your Frontend Proxy. For instance, if you are using
     nginx you could use it like this:
 
       proxy_set_header X-Request-Base 'https://example.com/myapp';
+
+    Note that you can also pass a relative URL to retain the original
+    hostname provided by the proxy.
 
 METHODS
     Mojolicious::Plugin::RequestBase inherits all methods from
