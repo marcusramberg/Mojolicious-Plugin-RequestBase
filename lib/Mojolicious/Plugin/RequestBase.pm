@@ -10,8 +10,8 @@ sub register {
     before_dispatch => sub {
       my $c = shift;
       if (my $base = $c->req->headers->header('X-Request-Base')) {
-        my $url=Mojo::URL->new($base);
-        if($url->host) {
+        my $url = Mojo::URL->new($base);
+        if ($url->host) {
           $c->req->url->base($url);
         }
         else {
